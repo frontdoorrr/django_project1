@@ -18,3 +18,4 @@ def signup(request):
 	else:
 		form = UserForm()
 	return render(request, 'templates/common/signup.html', {'form':form} )
+
