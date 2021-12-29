@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+'''
+********** 모델을 변경한 후에는 makemigrations와 migrate를 실행해 데이터베이스를 반드시 변경해주어야 한다. **********
+
+1. console 창에 python3 manage.py makemigrations 입력
+2. console 창에 python3 manage.py migrate 입력
+'''
+
 # Create your models here.
 class Question(models.Model):
 	author = models.ForeignKey(User, on_delete=models.CASCADE)  # on-delete 옵션 :계정이 삭제되면 이 계정이 작성한 질문을 모두 삭제
@@ -20,9 +27,10 @@ class Answer(models.Model):
 	modify_date = models.DateTimeField(null=True, blank=True) # blank=True 의미 : form.is_valid() 유효성 검사 없어도 된다는 의미
 
 
-'''
-********** 모델을 변경한 후에는 makemigrations와 migrate를 실행해 데이터베이스를 반드시 변경해주어야 한다. **********
-
-1. console 창에 python3 manage.py makemigrations 입력
-2. console 창에 python3 manage.py migrate 입력
-'''
+class Comment(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	content  = models.TextField()
+	create_date = models.DateTimeField()
+	modify_date = models.DateTimeField(null=True, blank=True)
+	question = models.ForeignKey(Question, null=True, blank=True, on_delete=models.CASCADE)
+	answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE)
